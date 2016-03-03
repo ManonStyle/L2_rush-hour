@@ -15,9 +15,9 @@ game new_game_hr (int nb_pieces, piece *pieces){
   game g = (game)malloc(sizeof(struct game_s));
   g->nb_pieces = nb_pieces;
   g->nb_moves = 0;
-  g->pieces = (piece*)malloc(sizeof(nb_pieces*sizeof(piece*)));
+  g->pieces = (piece*)malloc(nb_pieces*sizeof(piece));
   for(int i=0; i<nb_pieces; ++i){
-    pieces[i] = new_piece_rh(0, 0, true, true);
+    g->pieces[i] = new_piece_rh(0, 0, true, true);
     copy_piece(pieces[i], g->pieces[i]);
   }
   return g;
@@ -40,7 +40,7 @@ void copy_game (cgame src, game dst){
   }
 }
 
-int game_nb_piece (cgame g){
+int game_nb_pieces(cgame g){
   return g->nb_pieces;
 }
 
@@ -98,7 +98,7 @@ bool play_move(game g, int piece_num, dir d, int distance){
       return false;
     }
   }
-  g->nb_moves = distance;
+  g->nb_moves += distance;
   return true;
 }
 
