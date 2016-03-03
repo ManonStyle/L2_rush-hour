@@ -1,15 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "piece.h"
 #include "game.h"
-#include "game.c"
-#include "piece.c"
+
 
 #define NB_PIECES 7
+#define SIZE_ARRAY 6
 
 piece pieces[NB_PIECES];
-int piecesNum[6][6];
-
 /* configue de test
 ....6.
 111.6.
@@ -18,6 +17,9 @@ int piecesNum[6][6];
 .2.3..
 .2.555
  */
+
+char board[SIZE_ARRAY][SIZE_ARRAY];
+
 
 void set_up_pieces(){
   pieces[0] = new_piece_rh(0, 3, true, true);
@@ -29,62 +31,57 @@ void set_up_pieces(){
   pieces[6] = new_piece_rh(4, 3, false, false);
 }
 
-void fillArrayWithPieces(){
-  for(int i = 0; i < 6; ++i){
-    for(int j = 0; j < 6; ++j){
-      piecesNum[i][j] = -1;
-    }
+void set_up_board(game g){
+  for(int x=0; x<SIZE_ARRAY; ++x){
+    for(int y=0; y<SIZE_ARRAY; ++y)
+      board[x][y] = 100;
   }
-  for(int i = 0; i < NB_PIECES; ++i){
-    if(pieces[i]->horizontal){
-      for(int j = pieces[i]->x; j < pieces[i]->x + get_width(pieces[i]); ++j)
-	piecesNum[j][pieces[i]->y] = i;
-    }
-    else{
-      for(int j = pieces[i]->y; j < pieces[i]->y + get_height(pieces[i]); ++j)
-	piecesNum[pieces[i]->x][j] = i;
+  for(int y=0; y<SIZE_ARRAY; ++y){
+    for(int x=0; x<SIZE_ARRAY; ++x){
+      for(char piece_num=0; piece_num<NB_PIECES; ++piece_num){
+	cpiece p = game_piece(g, piece_num);
+	if(get_x(p) == x && get_y(p) == y){
+	  if(is_horizontal(p)){
+	    for(int i=0; i<get_width(p); ++i)
+	      board[x+i][y] = piece_num;
+	    break;
+	  }else{
+	    for(int i=0; i<get_height(p); ++i)
+	      board[x][y+i] = piece_num;
+	    break;
+	  }
+	}
+      }
     }
   }
 }
 
-void draw_game(){
-  for(int i = 0; i < 6; ++i){
-    for(int j = 5; j >= 0; --j){
-      printf("|");
-      switch(piecesNum[5-j][5-i]){
-      case -1:
-	printf("   ");
-	break;
-      case 0:
-	printf(" 0 ");
-	break;
-      case 1:
-	printf(" 1 ");
-	break;
-      case 2:
-	printf(" 2 ");
-	break;	
-      case 3:
-	printf(" 3 ");
-	break;
-      case 4:
-	printf(" 4 ");
-	break;
-      case 5:
-	printf(" 5 ");
-	break;	
-     case 6:
-	printf(" 6 ");
-	break;	
-      }
+
+void print_game(cgame g){
+  printf("-------------------------------------------\n");
+  for(int y=5; y>=0; --y){
+    if(y == 3)
+      printf("|      |      |      |      |      |      ------\n");
+    else
+      printf("|      |      |      |      |      |      |\n");
+    for(int x=0; x<SIZE_ARRAY; ++x){
+      if(board[x][y]!=100)
+	printf("|  %d   ",board[x][y]);
+      else
+	printf("|      ");
     }
-    printf("|\n");
+    if(y == 3)
+      printf(" exit\n|      |      |      |      |      |      ------\n");
+    else
+      printf("|\n|      |      |      |      |      |      |\n");
+    printf("|-----------------------------------------|\n");
   }
 }
 
 int main(int argc, char *argv[]){
   set_up_pieces();
-  fillArrayWithPieces();
-  draw_game();
+  game g = new_game_hr(NB_PIECES, pieces);
+  set_up_board(g);
+  print_game(g);
   return EXIT_SUCCESS;
 }
