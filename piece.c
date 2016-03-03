@@ -68,7 +68,7 @@ bool intersect (cpiece p1, cpiece p2){
     }
     return false;
   }
-  else if (!is_horizontal(p1) && !is_horizontal(p1)){
+  else if (!is_horizontal(p1) && !is_horizontal(p2)){
     for (int i = get_y(p1); i < get_y(p1) + get_height(p1); ++i){
       for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){
 	if (get_x(p1) == get_x(p2) && i == j)
@@ -77,7 +77,7 @@ bool intersect (cpiece p1, cpiece p2){
     }
     return false;
   }
-  else if (is_horizontal(p1) && !is_horizontal(p1)){
+  else if (is_horizontal(p1) && !is_horizontal(p2)){
     for (int i = get_x(p1); i < get_x(p1) + get_width(p1); ++i){
       for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){
 	if (i == get_x(p2) && get_y(p1) == j)
