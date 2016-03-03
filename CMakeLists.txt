@@ -17,4 +17,4 @@ set(HEADERS
   game.h
   )
 
-add_executable(test_rt ${SRCS} ${HEADERS})
+add_executable(test_rh ${SRCS} ${HEADERS})
