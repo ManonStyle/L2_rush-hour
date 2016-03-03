@@ -130,7 +130,7 @@ int main(int argc, char *argv[]){
 	  if(strcmp(buf[0], "exit") == 10)
 	    return EXIT_SUCCESS;
 	  if(buf[0][0]<48 || buf[0][0]>=48+NB_PIECES || buf[0][1] != 10)
-	    printf("Write a number between 0 and %d.\n",NB_PIECES-1);
+	    printf("Write a number between 0 and %d\tor write cancel or exit.\n",NB_PIECES-1);
 	  else{
 	    piece_num = atoi(buf[0]);
 	    good = true;
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]){
 	  if(strcmp(buf[1], "exit") == 10)
 	    return EXIT_SUCCESS;
 	  if(!is_dir_option(buf[1]))
-	    printf("Write one of those direction: up, down, right, left.\n");
+	    printf("Write one of those direction: up, down, right, left\tor write cancel or exit.\n");
 	  else{
 	    for(int i=0; i<4; ++i){
 	      if(strcmp(buf[1], direction[i].dir_name) == 10)
@@ -173,12 +173,12 @@ int main(int argc, char *argv[]){
 	  if(strcmp(buf[2], "exit") == 10)
 	    return EXIT_SUCCESS;
 	  if(buf[2][0]<48 || buf[2][0]>=48+SIZE_ARRAY || buf[2][1] != 10)
-	    printf("Write a number between 0 and %d.\n",SIZE_ARRAY-1);
+	    printf("Write a number between 0 and %d\tor write cancel or exit.\n",SIZE_ARRAY-1);
 	  else{
 	    distance = atoi(buf[2]);
 	    good = play_move(g, piece_num, d, distance);
 	    if(!good)
-	      printf("The piece %d cannot move to that case\n",SIZE_ARRAY);
+	      printf("The piece %d cannot move to that case.\n",SIZE_ARRAY);
 	  }
 	}
       }
