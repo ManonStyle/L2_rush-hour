@@ -52,6 +52,7 @@ cpiece game_piece(cgame g, int piece_num){
   return g->pieces[piece_num];
 }
 
+
 bool game_over_hr (cgame g){
   return get_x(g->pieces[0]) == 4 && get_y(g->pieces[0]) == 3;
 }
