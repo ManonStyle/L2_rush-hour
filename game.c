@@ -58,7 +58,7 @@ bool game_over_hr (cgame g){
 
 bool is_in_game(cgame g, int piece_num){
   cpiece p = g->pieces[piece_num];
-  return get_x(p)>=0 && get_x(p)<SIZE_ARRAY && get_y(p)>=0 && get_y(p)<SIZE_ARRAY;
+  return get_x(p)>=0 && get_x(p)<=SIZE_ARRAY-get_width(p) && get_y(p)>=0 && get_y(p)<SIZE_ARRAY-get_height(p);
 }
 
 bool is_above_piece(cgame g, int piece_num){
