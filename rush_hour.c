@@ -117,9 +117,9 @@ int main(int argc, char *argv[]){
   while(!game_over_hr(g)){
     bool good = false;
     while(!good){
-      set_up_board(g);
-      print_game(g);
       while(!good){
+	set_up_board(g);
+	print_game(g);
 	printf("Move the pieces for free the piece 0 to the exit:\n");
 	printf("Total move: %d\n",game_nb_moves(g));
 	while(!good){
@@ -178,7 +178,7 @@ int main(int argc, char *argv[]){
 	    distance = atoi(buf[2]);
 	    good = play_move(g, piece_num, d, distance);
 	    if(!good)
-	      printf("The piece %d cannot move to that case.\n",SIZE_ARRAY);
+	      printf("The piece %d cannot move to that case.\n", piece_num);
 	  }
 	}
       }
