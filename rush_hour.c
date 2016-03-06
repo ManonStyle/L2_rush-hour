@@ -31,6 +31,7 @@ dir_option direction[] = {{"up",UP},{"down",DOWN},{"right",RIGHT},{"left",LEFT}}
 
 
 void set_up_pieces(){
+  //Initialise Game
   pieces[0] = new_piece_rh(0, 3, true, true);
   pieces[1] = new_piece_rh(0, 4, false, true);
   pieces[2] = new_piece_rh(1, 0, false, false);
@@ -41,14 +42,17 @@ void set_up_pieces(){
 }
 
 void set_up_board(game g){
+  //Iniatialise all board at 100
   for(int x=0; x<SIZE_ARRAY; ++x){
     for(int y=0; y<SIZE_ARRAY; ++y)
       board[x][y] = 100;
   }
+  //Instance the board whith the game g in parameter
   for(int y=0; y<SIZE_ARRAY; ++y){
     for(int x=0; x<SIZE_ARRAY; ++x){
       for(char piece_num=0; piece_num<NB_PIECES; ++piece_num){
 	cpiece p = game_piece(g, piece_num);
+	// If p is at (x,y), fill the board
 	if(get_x(p) == x && get_y(p) == y){
 	  if(is_horizontal(p)){
 	    for(int i=0; i<get_width(p); ++i)
@@ -65,8 +69,8 @@ void set_up_board(game g){
   }
 }
 
-
-void print_game(cgame g){
+// Print the board of the current game in the terminal
+void print_game(){
   printf("-------------------------------------------\n");
   for(int y=5; y>=0; --y){
     if(y == 3)
@@ -90,6 +94,7 @@ void print_game(cgame g){
 bool can_move(game g, int piece_num){
   cpiece p = game_piece(g, piece_num);
   if(is_horizontal(p)){
+    //Check if the piece is not nears the limit board and if there is not an other piece sticks to hir
     if(get_x(p)-1 >= 0 && get_x(p)+get_width(p) < SIZE_ARRAY)
       return board[get_x(p)-1][get_y(p)]==100 || board[get_x(p)+get_width(p)][get_y(p)]==100;
     if(get_x(p)+get_width(p) < SIZE_ARRAY)
@@ -108,6 +113,7 @@ bool can_move(game g, int piece_num){
 } 
 
 bool is_dir_option(char* str){
+  //Verify if the string str is an option's name of direction.
   for(int i=0; i<4; ++i){
     if(strcmp(str, direction[i].dir_name) == 10)
       return true;
@@ -116,6 +122,7 @@ bool is_dir_option(char* str){
 }
 
 bool good_direction(game g, int piece_num, dir d){
+  //Verify if you can move to the direction d
   cpiece p = game_piece(g, piece_num);
   if(is_horizontal(p)){
     if(d == UP || d == DOWN){
@@ -123,6 +130,7 @@ bool good_direction(game g, int piece_num, dir d){
       return false;
     }
     if(d == RIGHT){
+      //Verify if the piece is not nears the limit board and if there is not an other piece sticks to hir
       if(get_x(p)+get_width(p) >= SIZE_ARRAY || board[get_x(p)+get_width(p)][get_y(p)] != 100){
 	printf("The piece %d cannot move to right\n", piece_num);
 	return false;
@@ -165,13 +173,15 @@ int main(int argc, char *argv[]){
   while(!game_over_hr(g)){
     bool good = false;
     while(!good){
+      set_up_board(g);
+      //Loop for the break of cancel instruction
       while(!good){
 	system("clear");
-	set_up_board(g);
-	print_game(g);
+	print_game();
 	printf("Move the pieces for free the piece 0 to the exit:\n");
 	printf("Write exit for quit the game or cancel for restart the current move.\n");
 	printf("Total move: %d\n",game_nb_moves(g));
+	//First loop to take the number piece that you want to move
 	while(!good){
 	  printf("What piece do you want to move?\n");
 	  read(0, buf[0], sizeof(char)*100);
@@ -192,6 +202,7 @@ int main(int argc, char *argv[]){
 	if(!good)
 	  break;
 	good = false;
+	//Second loop to take the direction where you want to move
 	while(!good){
 	  printf("In what direction?\n");
 	  read(0, buf[1],  sizeof(char)*100);
@@ -214,6 +225,7 @@ int main(int argc, char *argv[]){
 	if(!good)
 	  break;
 	good = false;
+	//Third loop to take the number of case that need for the move
 	while(!good){
 	  printf("How many case?\n");
 	  read(0, buf[2],  sizeof(char)*100);
@@ -235,6 +247,8 @@ int main(int argc, char *argv[]){
   }
   set_up_board(g);
   print_game(g);
-  printf("CONGRETULATION\nYou won in %d moves\n", game_nb_moves(g));
+  system("clear");
+  printf("CONGRATULATION\nYou won in %d moves\n", game_nb_moves(g));
+  delete_game(g);
   return EXIT_SUCCESS;
 }
