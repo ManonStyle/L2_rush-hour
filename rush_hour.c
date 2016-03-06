@@ -180,7 +180,7 @@ int main(int argc, char *argv[]){
 	  if(strcmp(buf[0], "exit") == 10)
 	    return EXIT_SUCCESS;
 	  if(buf[0][0]<48 || buf[0][0]>=48+NB_PIECES || buf[0][1] != 10)
-	    printf("Write a number between 0 and %d.\n",NB_PIECES-1);
+	    printf("Write a number between 0 and %dt\tor write cancel or exit.\n",NB_PIECES-1);
 	  else{
 	    piece_num = atoi(buf[0]);
 	    if(!can_move(g,piece_num))
