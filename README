@@ -1,11 +1,19 @@
 
 projet de programmation - rush-hour 
 
+
 implémenté par : Aliénor Brabant, Manon Philippot, Abdoul Diallo, Gérard Lézé
 
-compilation :
+dépot github : https://github.com/ManonStyle
+
+
+compilation - génère test-piece, test-game et rush-hour :
 	cmake .
 	make
 
-execution : 
+execution du jeu : 
 	./rush-hour
+
+execution des tests :
+	./test-piece
+	./test-game
