@@ -49,7 +49,16 @@ void tear_down() {
 
 bool test_new_game(){
   bool result = true;
-  return true;
+  set_up();
+  game g = new_game_hr(NB_PIECES, pieces);
+  result = result && test_equality_int(NB_PIECES, game_nb_pieces(g), "game_nb_pieces");
+  result = result && test_equality_int(0, game_nb_moves(g), "game_nb_moves");
+  for (int i = 0; i < NB_PIECES; ++i){
+    result = result && test_equality_bool(pieces[i], game_piece(g, i), "game_piece");
+  }
+  tear_down();
+  //delete_game(g);
+  return result;
 }
 
 bool test_play_move(){
@@ -68,8 +77,9 @@ bool test_copy_game(){
   for (int i = 0; i < NB_PIECES; ++i){
     result = result && test_equality_bool(game_piece(g, i), game_piece(gC, i), "copy game_piece");
   }
-  delete_game(g);
-  delete_game(gC);
+  tear_down();
+  //delete_game(g);
+  //delete_game(gC);
   return result;
 }
 
