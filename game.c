@@ -87,7 +87,7 @@ bool play_move(game g, int piece_num, dir d, int distance){
   int cover_distance;
   for(cover_distance = 1; cover_distance<=distance; ++cover_distance){
     move_piece(p, d, 1);
-    if(!is_in_game(g, piece_num) || is_above_piece(g, piece_num)){
+    if(!is_in_game(g, piece_num) || is_above_piece(g, piece_num)){      //If wrong movement, the piece go back to the initial coordinates
       if(d == RIGHT)
 	move_piece(p, LEFT, cover_distance);
       else if(d == LEFT)
