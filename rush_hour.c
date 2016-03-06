@@ -91,15 +91,15 @@ bool can_move(game g, int piece_num){
   cpiece p = game_piece(g, piece_num);
   if(is_horizontal(p)){
     if(get_x(p)-1 >= 0 && get_x(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)-1][get_y(p)]==10 && board[get_x(p)+1][get_y(p)]==10;
+      return board[get_x(p)-1][get_y(p)]==10 && (board[get_x(p)+1][get_y(p)]==10 || board[get_x(p)+1][get_y(p)]==piece_num);
     if(get_x(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)+1][get_y(p)]==10;
+      return board[get_x(p)+1][get_y(p)]==10 || board[get_x(p)+1][get_y(p)]==piece_num;
     return board[get_x(p)-1][get_y(p)]==10;
   }else{
     if(get_y(p)-1 >= 0 && get_y(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)][get_y(p)-1]==10 && board[get_x(p)][get_y(p)+1]==10;
+      return board[get_x(p)][get_y(p)-1]==10 && (board[get_x(p)][get_y(p)+1]==10 || board[get_x(p)][get_y(p)+1]==piece_num);
     if(get_y(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)][get_y(p)+1]==10;
+      return board[get_x(p)][get_y(p)+1]==10 || board[get_x(p)][get_y(p)+1]==piece_num;
     return board[get_x(p)][get_y(p)-1]==10;
   }
 } 
