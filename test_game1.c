@@ -57,19 +57,25 @@ bool test_new_game(){
     result = result && test_equality_bool(pieces[i], game_piece(g, i), "game_piece");
   }
   tear_down();
-  //delete_game(g);
+  delete_game(g);
   return result;
 }
 
 bool test_play_move(){
-  return true;
+  bool result = true;
+  set_up();
+  game g = new_game_hr(NB_PIECES, pieces);
+  result = result && test_equality_bool(false, game_over_hr(g), "play_move game_over_hr");
+
+  
 }
 
 bool test_copy_game(){
   bool result = true;
   set_up();
   game g = new_game_hr(NB_PIECES, pieces);
-  piece piecesC[]={new_piece_rh(2, 1, true, false)};
+  piece piecesC[1];
+  piecesC[0] = new_piece_rh(2, 1, true, false);
   game gC = new_game_hr(1, piecesC);
   copy_game(g, gC);
   result = result && test_equality_int(game_nb_pieces(g), game_nb_pieces(gC), "copy game_nb_pieces");
@@ -78,8 +84,8 @@ bool test_copy_game(){
     result = result && test_equality_bool(game_piece(g, i), game_piece(gC, i), "copy game_piece");
   }
   tear_down();
-  //delete_game(g);
-  //delete_game(gC);
+  delete_game(g);
+  delete_game(gC);
   return result;
 }
 
@@ -98,11 +104,5 @@ int main (int argc, char *argv[]){
     return EXIT_FAILURE;
  }
 
-     //new_game_hr
-   	 //game_nb_piece int
-	 //game_piece 
-
      //play_move
-	 //is_in_game
-	 //is_above_piece
 	 //game_over_hr
