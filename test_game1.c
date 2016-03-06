@@ -26,7 +26,7 @@ bool test_equality_bool(bool expected, bool value, char * msg) {
 }
 
 piece pieces[NB_PIECES];
-/* configue de test
+/* configue de test new_game & copy_game 
 ......
 ....2.
 00..21
@@ -47,6 +47,25 @@ void tear_down() {
     delete_piece(pieces[i]);
 }
 
+piece piecesBis[2];
+/* configue de test play_move 
+......
+......
+...00.
+..1...
+..1...
+......
+ */
+void set_up_Bis() {
+  piecesBis[0] = new_piece_rh(3, 3, true, true);
+  piecesBis[1] = new_piece_rh(2, 1, true, false);
+}
+
+void tear_down_Bis() {
+  for (int i = 0 ; i < 2; i++)
+    delete_piece(piecesBis[i]);
+}
+
 bool test_new_game(){
   bool result = true;
   set_up();
@@ -63,19 +82,32 @@ bool test_new_game(){
 
 bool test_play_move(){
   bool result = true;
-  set_up();
-  game g = new_game_hr(NB_PIECES, pieces);
-  result = result && test_equality_bool(false, game_over_hr(g), "play_move game_over_hr");
+  set_up_Bis();
+  game g = new_game_hr(2, piecesBis);
+  result = result && test_equality_bool(false, game_over_hr(g), "play_move game_over_hr false");
 
-  
+  result = result && test_equality_bool(true, play_move(g, 0, LEFT, 3), "play_move LEFT true");
+  result = result && test_equality_bool(false, play_move(g, 0, LEFT, 1), "play_move LEFT false");
+  result = result && test_equality_bool(true, play_move(g, 0, RIGHT, 4), "play_move RIGHT true");
+  result = result && test_equality_bool(false, play_move(g, 0, RIGHT, 1), "play_move RIGHT false");
+  result = result && test_equality_bool(true, play_move(g, 1, UP, 3), "play_move UP true");
+  result = result && test_equality_bool(false, play_move(g, 1, UP, 1), "play_move UP false");
+  result = result && test_equality_bool(true, play_move(g, 1, DOWN, 4), "play_move DOWN true");
+  result = result && test_equality_bool(false, play_move(g, 1, DOWN, 1), "play_move DOWN false");
+
+  result = result && test_equality_bool(true, game_over_hr(g), "play_move game_over_hr true");
+
+  play_move(g, 0, LEFT, 2);
+  result = result && test_equality_bool(false, play_move(g, 1, UP, 2), "play_move UP intersect");
+
+  return result;
 }
 
 bool test_copy_game(){
   bool result = true;
   set_up();
   game g = new_game_hr(NB_PIECES, pieces);
-  piece piecesC[1];
-  piecesC[0] = new_piece_rh(2, 1, true, false);
+  piece piecesC[] = {new_piece_rh(2, 1, true, false)};
   game gC = new_game_hr(1, piecesC);
   copy_game(g, gC);
   result = result && test_equality_int(game_nb_pieces(g), game_nb_pieces(gC), "copy game_nb_pieces");
@@ -85,7 +117,7 @@ bool test_copy_game(){
   }
   tear_down();
   delete_game(g);
-  delete_game(gC);
+  //delete_game(gC);
   return result;
 }
 
