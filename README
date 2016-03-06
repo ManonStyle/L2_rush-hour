@@ -1,0 +1,11 @@
+
+projet de programmation - rush-hour 
+
+implémenté par : Aliénor Brabant, Manon Filippo, Abdoule Dialo, Gérard Lézé
+
+compilation :
+	cmake .
+	make
+
+execution : 
+	./rush-hour
