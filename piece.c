@@ -42,7 +42,6 @@ void move_piece (piece p, dir d, int distance){
     if (d == LEFT)
       p->x -= distance;
     else{
-      //fprintf(stderr, "You can't move the car like this.");
       return;
     }
   }
@@ -52,7 +51,6 @@ void move_piece (piece p, dir d, int distance){
     if (d == DOWN)
       p->y -= distance;
     else{
-      //fprintf(stderr, "You can't move the car like this.");      
       return;
     }
   }
@@ -60,8 +58,8 @@ void move_piece (piece p, dir d, int distance){
 
 bool intersect (cpiece p1, cpiece p2){
   if (is_horizontal(p1) && is_horizontal(p2)){
-    for (int i = get_x(p1); i < get_x(p1) + get_width(p1); ++i){
-      for (int j = get_x(p2); j < get_x(p2) + get_width(p2); ++j){
+    for (int i = get_x(p1); i < get_x(p1) + get_width(p1); ++i){           //i & j are counters incrementing respectively
+      for (int j = get_x(p2); j < get_x(p2) + get_width(p2); ++j){         //the abscissa x of p1 and p2
 	if (i == j && get_y(p1) == get_y(p2))
 	  return true;
       }
@@ -69,8 +67,8 @@ bool intersect (cpiece p1, cpiece p2){
     return false;
   }
   else if (!is_horizontal(p1) && !is_horizontal(p2)){
-    for (int i = get_y(p1); i < get_y(p1) + get_height(p1); ++i){
-      for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){
+    for (int i = get_y(p1); i < get_y(p1) + get_height(p1); ++i){           //i & j are counters incrementing respectively
+      for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){         //the ordinate y of p1 & p2
 	if (get_x(p1) == get_x(p2) && i == j)
 	  return true;
       }
@@ -78,8 +76,8 @@ bool intersect (cpiece p1, cpiece p2){
     return false;
   }
   else if (is_horizontal(p1) && !is_horizontal(p2)){
-    for (int i = get_x(p1); i < get_x(p1) + get_width(p1); ++i){
-      for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){
+    for (int i = get_x(p1); i < get_x(p1) + get_width(p1); ++i){             //i & j are counters incrementing respectively
+      for (int j = get_y(p2); j < get_y(p2) + get_height(p2); ++j){          //the abscissa x of p1 and the ordinate y of p2
 	if (i == get_x(p2) && get_y(p1) == j)
 	  return true;
       }
@@ -87,8 +85,8 @@ bool intersect (cpiece p1, cpiece p2){
     return false;
   }
   else {
-    for (int i = get_y(p1); i < get_y(p1) + get_height(p1); ++i){
-      for (int j = get_x(p2); j < get_x(p2) + get_width(p2); ++j){
+    for (int i = get_y(p1); i < get_y(p1) + get_height(p1); ++i){             //i & j are counters incrementing respectively
+      for (int j = get_x(p2); j < get_x(p2) + get_width(p2); ++j){            //the ordinate y of p1 and the abscissa of p2
 	if (get_x(p1) == j && i == get_y(p2))
 	  return true;
       }
