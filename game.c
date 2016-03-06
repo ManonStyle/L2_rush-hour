@@ -33,7 +33,7 @@ void delete_game (game g){
 void copy_game (cgame src, game dst){
   dst->nb_pieces = src->nb_pieces;
   dst->nb_moves = src->nb_moves;
-  dst->pieces = (piece*)malloc(sizeof(src->nb_pieces*sizeof(piece*)));
+  dst->pieces = (piece*)realloc(dst->pieces, sizeof(src->nb_pieces*sizeof(piece*)));
   for(int i=0; i<src->nb_pieces; ++i){
     dst->pieces[i] = new_piece_rh(0, 0, true, true);
     copy_piece(src->pieces[i], dst->pieces[i]);
