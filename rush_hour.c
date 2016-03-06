@@ -90,18 +90,21 @@ void print_game(cgame g){
 bool can_move(game g, int piece_num){
   cpiece p = game_piece(g, piece_num);
   if(is_horizontal(p)){
-    if(get_x(p)-1 >= 0 && get_x(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)-1][get_y(p)]==10 && (board[get_x(p)+1][get_y(p)]==10 || board[get_x(p)+1][get_y(p)]==piece_num);
-    if(get_x(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)+1][get_y(p)]==10 || board[get_x(p)+1][get_y(p)]==piece_num;
-    return board[get_x(p)-1][get_y(p)]==10;
+    if(get_x(p)-1 >= 0 && get_x(p)+get_width(p) < SIZE_ARRAY)
+      return board[get_x(p)-1][get_y(p)]==100 || board[get_x(p)+get_width(p)][get_y(p)]==100;
+    if(get_x(p)+get_width(p) < SIZE_ARRAY)
+      return board[get_x(p)+get_width(p)][get_y(p)]==100;
+    if(get_x(p)-1 >= 0)
+      return board[get_x(p)-1][get_y(p)]==100;
   }else{
-    if(get_y(p)-1 >= 0 && get_y(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)][get_y(p)-1]==10 && (board[get_x(p)][get_y(p)+1]==10 || board[get_x(p)][get_y(p)+1]==piece_num);
-    if(get_y(p)+1 < SIZE_ARRAY)
-      return board[get_x(p)][get_y(p)+1]==10 || board[get_x(p)][get_y(p)+1]==piece_num;
-    return board[get_x(p)][get_y(p)-1]==10;
+    if(get_y(p)-1 >= 0 && get_y(p)+get_height(p) < SIZE_ARRAY)
+      return board[get_x(p)][get_y(p)-1]==100 || board[get_x(p)][get_y(p)+get_height(p)]==100;
+    if(get_y(p)+get_height(p) < SIZE_ARRAY)
+      return board[get_x(p)][get_y(p)+get_height(p)]==100;
+    if(get_y(p)-1 >= 0)
+      return board[get_x(p)][get_y(p)-1]==100;
   }
+  return false;
 } 
 
 bool is_dir_option(char* str){
@@ -115,11 +118,39 @@ bool is_dir_option(char* str){
 bool good_direction(game g, int piece_num, dir d){
   cpiece p = game_piece(g, piece_num);
   if(is_horizontal(p)){
-    if(d == UP || d == DOWN)
+    if(d == UP || d == DOWN){
+      printf("The piece %d cannot move vertycaly\n", piece_num);
       return false;
+    }
+    if(d == RIGHT){
+      if(get_x(p)+get_width(p) >= SIZE_ARRAY || board[get_x(p)+get_width(p)][get_y(p)] != 100){
+	printf("The piece %d cannot move to right\n", piece_num);
+	return false;
+      }
+    }
+    if(d == LEFT){
+      if(get_x(p)-1 < 0 || board[get_x(p)-1][get_y(p)] != 100){
+	printf("The piece %d cannot move to left\n", piece_num);
+	return false;
+      }
+    }	
   }else{
-    if(d == RIGHT || d == LEFT)
+    if(d == RIGHT || d == LEFT){
+      printf("The piece %d cannot move horizontaly\n", piece_num);
       return false;
+    }
+    if(d == UP){
+      if(get_y(p)+get_height(p) >= SIZE_ARRAY || board[get_x(p)][get_y(p)+get_height(p)] != 100){
+	printf("The piece %d cannot move to up\n", piece_num);
+	return false;
+      }
+    }
+    if(d == DOWN){
+      if(get_y(p)-1 < 0 || board[get_x(p)][get_y(p)-1] != 100){
+	printf("The piece %d cannot move to down\n", piece_num);
+	return false;
+      }
+    }
   }
   return true;
 }
@@ -175,13 +206,9 @@ int main(int argc, char *argv[]){
 	      if(strcmp(buf[1], direction[i].dir_name) == 10)
 		d = direction[i].dir_option;
 	    }
-	    if(!good_direction(g, piece_num, d)){
-	      if(is_horizontal(game_piece(g, piece_num)))
-		printf("The piece %d cannot move vertycaly\n", piece_num);
-	      else
-		printf("The piece %d cannot move horizontaly\n", piece_num);
-	    }else
+	    if(good_direction(g, piece_num, d)){
 	      good = true;
+	    }
 	  }
 	}
 	if(!good)
@@ -200,7 +227,7 @@ int main(int argc, char *argv[]){
 	    distance = atoi(buf[2]);
 	    good = play_move(g, piece_num, d, distance);
 	    if(!good)
-	      printf("The piece %d cannot move to that case.\n", piece_num);
+	      printf("The piece %d cannot move of %d case(s).\n", piece_num, distance);
 	  }
 	}
       }
