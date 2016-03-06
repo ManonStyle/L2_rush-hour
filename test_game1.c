@@ -98,10 +98,7 @@ int main (int argc, char *argv[]){
     return EXIT_FAILURE;
  }
 
-     //new_game_hr
-   	 //game_nb_piece int
-	 //game_piece 
-
+     
      //play_move
 	 //is_in_game
 	 //is_above_piece
