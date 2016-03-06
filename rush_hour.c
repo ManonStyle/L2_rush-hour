@@ -87,6 +87,23 @@ void print_game(cgame g){
   }
 }
 
+bool can_move(game g, int piece_num){
+  cpiece p = game_piece(g, piece_num);
+  if(is_horizontal(p)){
+    if(get_x(p)-1 >= 0 && get_x(p)+1 < SIZE_ARRAY)
+      return board[get_x(p)-1][get_y(p)]==10 && board[get_x(p)+1][get_y(p)]==10;
+    if(get_x(p)+1 < SIZE_ARRAY)
+      return board[get_x(p)+1][get_y(p)]==10;
+    return board[get_x(p)-1][get_y(p)]==10;
+  }else{
+    if(get_y(p)-1 >= 0 && get_y(p)+1 < SIZE_ARRAY)
+      return board[get_x(p)][get_y(p)-1]==10 && board[get_x(p)][get_y(p)+1]==10;
+    if(get_y(p)+1 < SIZE_ARRAY)
+      return board[get_x(p)][get_y(p)+1]==10;
+    return board[get_x(p)][get_y(p)-1]==10;
+  }
+} 
+
 bool is_dir_option(char* str){
   for(int i=0; i<4; ++i){
     if(strcmp(str, direction[i].dir_name) == 10)
@@ -118,9 +135,11 @@ int main(int argc, char *argv[]){
     bool good = false;
     while(!good){
       while(!good){
+	system("clear");
 	set_up_board(g);
 	print_game(g);
 	printf("Move the pieces for free the piece 0 to the exit:\n");
+	printf("Write exit for quit the game or cancel for restart the current move.\n");
 	printf("Total move: %d\n",game_nb_moves(g));
 	while(!good){
 	  printf("What piece do you want to move?\n");
@@ -130,10 +149,13 @@ int main(int argc, char *argv[]){
 	  if(strcmp(buf[0], "exit") == 10)
 	    return EXIT_SUCCESS;
 	  if(buf[0][0]<48 || buf[0][0]>=48+NB_PIECES || buf[0][1] != 10)
-	    printf("Write a number between 0 and %d\tor write cancel or exit.\n",NB_PIECES-1);
+	    printf("Write a number between 0 and %d.\n",NB_PIECES-1);
 	  else{
 	    piece_num = atoi(buf[0]);
-	    good = true;
+	    if(!can_move(g,piece_num))
+	      printf("The piece %d cannot move.\n", piece_num);
+	    else
+	      good = true;
 	  }
 	}
 	if(!good)
