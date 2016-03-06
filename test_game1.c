@@ -68,6 +68,8 @@ bool test_copy_game(){
   for (int i = 0; i < NB_PIECES; ++i){
     result = result && test_equality_bool(game_piece(g, i), game_piece(gC, i), "copy game_piece");
   }
+  delete_game(g);
+  delete_game(gC);
   return result;
 }
 
