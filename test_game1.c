@@ -73,7 +73,11 @@ bool test_new_game(){
   result = result && test_equality_int(NB_PIECES, game_nb_pieces(g), "game_nb_pieces");
   result = result && test_equality_int(0, game_nb_moves(g), "game_nb_moves");
   for (int i = 0; i < NB_PIECES; ++i){
-    result = result && test_equality_bool(pieces[i], game_piece(g, i), "game_piece");
+    result = result && test_equality_int(get_x(pieces[i]), get_x(game_piece(g, i)), "game_piece get_x");
+    result = result && test_equality_int(get_y(pieces[i]), get_y(game_piece(g, i)), "game_piece get_y");
+    result = result && test_equality_int(get_height(pieces[i]), get_height(game_piece(g, i)), "game_piece get_height");
+    result = result && test_equality_int(get_width(pieces[i]), get_width(game_piece(g, i)), "game_piece get_width");
+    result = result && test_equality_bool(is_horizontal(pieces[i]), is_horizontal(game_piece(g, i)), "game_piece is_horizontal");
   }
   tear_down();
   delete_game(g);
@@ -99,7 +103,7 @@ bool test_play_move(){
 
   play_move(g, 0, LEFT, 2);
   result = result && test_equality_bool(false, play_move(g, 1, UP, 2), "play_move UP intersect");
-
+  delete_game(g);
   return result;
 }
 
@@ -113,11 +117,15 @@ bool test_copy_game(){
   result = result && test_equality_int(game_nb_pieces(g), game_nb_pieces(gC), "copy game_nb_pieces");
   result = result && test_equality_int(game_nb_moves(g), game_nb_moves(gC), "copy game_nb_moves");
   for (int i = 0; i < NB_PIECES; ++i){
-    result = result && test_equality_bool(game_piece(g, i), game_piece(gC, i), "copy game_piece");
+    result = result && test_equality_int(get_x(pieces[i]), get_x(game_piece(g, i)), "game_piece get_x");
+    result = result && test_equality_int(get_y(pieces[i]), get_y(game_piece(g, i)), "game_piece get_y");
+    result = result && test_equality_int(get_height(pieces[i]), get_height(game_piece(g, i)), "game_piece get_height");
+    result = result && test_equality_int(get_width(pieces[i]), get_width(game_piece(g, i)), "game_piece get_width");
+    result = result && test_equality_bool(is_horizontal(pieces[i]), is_horizontal(game_piece(g, i)), "game_piece is_horizontal");
   }
   tear_down();
   delete_game(g);
-  //delete_game(gC);
+  //delete_game(gC); -> erreur à résoudre
   return result;
 }
 
@@ -135,6 +143,3 @@ int main (int argc, char *argv[]){
   else
     return EXIT_FAILURE;
  }
-
-     //play_move
-	 //game_over_hr
