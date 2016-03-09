@@ -19,8 +19,6 @@ piece pieces[NB_PIECES];
 .2.555
  */
 
-char board[SIZE_ARRAY][SIZE_ARRAY];
-
 struct dir_option_s{
   char dir_name[6];
   dir dir_option;
