@@ -6,18 +6,7 @@
 #include "game.h"
 
 
-#define NB_PIECES 7
 #define SIZE_ARRAY 6
-
-piece pieces[NB_PIECES];
-/* configue de test
-....6.
-111.6.
-00..6.
-.2.344
-.2.3..
-.2.555
- */
 
 struct dir_option_s{
   char dir_name[6];
@@ -27,17 +16,6 @@ struct dir_option_s{
 typedef struct dir_option_s dir_option;
 dir_option direction[] = {{"up",UP},{"down",DOWN},{"right",RIGHT},{"left",LEFT}};
 
-
-void set_up_pieces(){
-  //Initialise Game
-  pieces[0] = new_piece_rh(0, 3, true, true);
-  pieces[1] = new_piece_rh(0, 4, false, true);
-  pieces[2] = new_piece_rh(1, 0, false, false);
-  pieces[3] = new_piece_rh(3, 1, true, false);
-  pieces[4] = new_piece_rh(4, 2, true, true);
-  pieces[5] = new_piece_rh(3, 0, false, true);
-  pieces[6] = new_piece_rh(4, 3, false, false);
-}
 
 // return the number of the piece in (,y) or -1
 int is_piece(game g, int x, int y){
@@ -73,7 +51,7 @@ void print_game(game g){
     for(int x=0; x<SIZE_ARRAY; ++x){
       int piece_num = is_piece(g, x, y);
       if(piece_num != -1)
-	printf("|  %d   ", piece_num);
+	printf("|  %2d  ", piece_num);
       else
 	printf("|      ");
     }
@@ -228,11 +206,49 @@ int take_number_case(game g, int piece_num, dir d, char* buf, int* distance){
   return 0;
 }
 
+game init_game(int level){
+  FILE* f = fopen("rush_hour.txt", "r");
+  if(f == NULL)
+    exit(EXIT_FAILURE);
+  char* tmp = (char*)malloc(100*sizeof(char));
+  for(int i=1; i<level; ++i){
+    tmp = fgets(tmp, 100, f);
+  }
+  tmp = (char*)realloc(tmp, 2*sizeof(char));
+  tmp = fgets(tmp, 3, f);
+  int nb_pieces = atoi(tmp);
+  piece pieces[nb_pieces];
+  tmp = (char*)realloc(tmp, sizeof(char));
+  for(int i=0; i<nb_pieces; ++i){
+    tmp = fgets(tmp, 2, f);
+    tmp = fgets(tmp, 2, f);
+    int x = atoi(tmp);
+    tmp = fgets(tmp, 2, f);
+    int y = atoi(tmp);
+    tmp = fgets(tmp, 2, f);
+    bool small = atoi(tmp);
+    tmp = fgets(tmp, 2, f);
+    bool horizontal = atoi(tmp);
+    pieces[i] = new_piece_rh(x, y, small, horizontal);
+  }
+  fclose(f);
+  free(tmp);
+  return new_game_hr(nb_pieces, pieces);
+}
+
+void usage(char* str){
+  fprintf(stderr, "Usage: %s <int level>\n", str);
+  return exit(EXIT_FAILURE);
+}
 
 
 int main(int argc, char *argv[]){
-  set_up_pieces();
-  game g = new_game_hr(NB_PIECES, pieces);
+  if(argc != 2)
+    usage(argv[0]);
+  int level = atoi(argv[1]);
+  if(level <= 0)
+    usage(argv[0]);
+  game g = init_game(level);
   char buf[3][100];
   int piece_num;
   dir d;
