@@ -210,29 +210,34 @@ game init_game(int level){
   FILE* f = fopen("rush_hour.txt", "r");
   if(f == NULL)
     exit(EXIT_FAILURE);
-  char* tmp = (char*)malloc(100*sizeof(char));
-  for(int i=1; i<level; ++i){
-    tmp = fgets(tmp, 100, f);
+  //char* tmp = (char*)malloc(100*sizeof(char));
+  char tmp[100]; 
+  for(int i=0; i<level; ++i){
+    if(!fgets(tmp, 100, f)){
+      fprintf(stderr, "error\n");
+      exit(EXIT_FAILURE);
+    }
   }
-  tmp = (char*)realloc(tmp, 2*sizeof(char));
-  tmp = fgets(tmp, 3, f);
-  int nb_pieces = atoi(tmp);
+  const char limit[1] = ".";
+  char* splited = strtok(tmp, limit);
+  int nb_pieces = atoi(splited);
   piece pieces[nb_pieces];
-  tmp = (char*)realloc(tmp, sizeof(char));
+  char value[1];
   for(int i=0; i<nb_pieces; ++i){
-    tmp = fgets(tmp, 2, f);
-    tmp = fgets(tmp, 2, f);
-    int x = atoi(tmp);
-    tmp = fgets(tmp, 2, f);
-    int y = atoi(tmp);
-    tmp = fgets(tmp, 2, f);
-    bool small = atoi(tmp);
-    tmp = fgets(tmp, 2, f);
-    bool horizontal = atoi(tmp);
+    splited = strtok(NULL, limit);
+    printf("%s\n", splited);
+    value[0] = splited[0];
+    int x = atoi(value);
+    value[0] = splited[1];
+    int y = atoi(value);
+    value[0] = splited[2];
+    bool small = atoi(value);
+    value[0] = splited[3];
+    bool horizontal = atoi(value);
     pieces[i] = new_piece_rh(x, y, small, horizontal);
   }
   fclose(f);
-  free(tmp);
+  //free(tmp);
   return new_game_hr(nb_pieces, pieces);
 }
 
