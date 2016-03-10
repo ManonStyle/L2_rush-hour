@@ -210,11 +210,10 @@ game init_game(int level){
   FILE* f = fopen("rush_hour.txt", "r");
   if(f == NULL)
     exit(EXIT_FAILURE);
-  //char* tmp = (char*)malloc(100*sizeof(char));
   char tmp[100]; 
   for(int i=0; i<level; ++i){
     if(!fgets(tmp, 100, f)){
-      fprintf(stderr, "error\n");
+      fprintf(stderr, "There is no level %d\n", level);
       exit(EXIT_FAILURE);
     }
   }
@@ -237,7 +236,6 @@ game init_game(int level){
     pieces[i] = new_piece_rh(x, y, small, horizontal);
   }
   fclose(f);
-  //free(tmp);
   return new_game_hr(nb_pieces, pieces);
 }
 
