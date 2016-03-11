@@ -207,8 +207,9 @@ int take_number_case(game g, int piece_num, dir d, char* buf, int* distance){
 }
 
 game init_game(int level){
-  FILE* f = fopen("rush_hour.txt", "r");
+  FILE* f = fopen("../../rush_hour/rush_hour.txt", "r");
   if(f == NULL)
+    fprintf(stderr, "erreur rush_hour.txt\n");
     exit(EXIT_FAILURE);
   char tmp[100]; 
   for(int i=0; i<level; ++i){
