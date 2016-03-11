@@ -7,13 +7,12 @@ implémenté par : Aliénor Brabant, Manon Philippot, Abdoul Diallo, Gérard Lé
 dépot github : https://github.com/ManonStyle
 
 
-compilation - génère test-piece, test-game et rush-hour :
-	cmake .
-	make
+compilation :
+	cmake ..
+	make install
 
 execution du jeu : 
-	./rush-hour
+	./rush_hour <numero du niveau>
 
 execution des tests :
-	./test-piece
-	./test-game
+	make check

@@ -1,0 +1,38 @@
+Start testing: Mar 11 12:45 CET
+----------------------------------------------------------
+1/2 Testing: tg
+1/2 Test: tg
+Command: "/home/gg/Bureau/projet/rush-hour/build/game/game/test_game"
+Directory: /home/gg/Bureau/projet/rush-hour/build/game/game
+"tg" start time: Mar 11 12:45 CET
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Fail Reason:
+Required regular expression not found.Regex=[Youpi !
+]
+"tg" end time: Mar 11 12:45 CET
+"tg" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: tp
+2/2 Test: tp
+Command: "/home/gg/Bureau/projet/rush-hour/build/game/piece/test_piece"
+Directory: /home/gg/Bureau/projet/rush-hour/build/game/piece
+"tp" start time: Mar 11 12:45 CET
+Output:
+----------------------------------------------------------
+Youpi !
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Pass Reason:
+Required regular expression found.Regex=[Youpi !
+]
+"tp" end time: Mar 11 12:45 CET
+"tp" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Mar 11 12:45 CET

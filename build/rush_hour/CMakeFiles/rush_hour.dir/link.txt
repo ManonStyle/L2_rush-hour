@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/rush_hour.dir/rush_hour.c.o  -o rush_hour -rdynamic ../game/libgame.a 

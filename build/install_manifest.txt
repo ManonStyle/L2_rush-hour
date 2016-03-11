@@ -1,0 +1,4 @@
+/home/gg/Bureau/projet/rush-hour/build/lib/libgame.a
+/home/gg/Bureau/projet/rush-hour/build/include/piece.h
+/home/gg/Bureau/projet/rush-hour/build/include/game.h
+/home/gg/Bureau/projet/rush-hour/build/bin/rush_hour
