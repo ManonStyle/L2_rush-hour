@@ -8,5 +8,6 @@ target_link_libraries(rush_hour game)
 
 install(TARGETS rush_hour RUNTIME DESTINATION ${RUSHHOUR_BINARY_DIR}/bin)
 
+install(FILES rush_hour.txt DESTINATION ${RUSHHOUR_BINARY_DIR}/bin)
 
-
+install(FILES rush_hour.txt DESTINATION build/rush_hour)
