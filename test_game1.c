@@ -103,6 +103,7 @@ bool test_play_move(){
 
   play_move(g, 0, LEFT, 2);
   result = result && test_equality_bool(false, play_move(g, 1, UP, 2), "play_move UP intersect");
+  tear_down_Bis();
   delete_game(g);
   return result;
 }
